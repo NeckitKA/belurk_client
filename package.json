@@ -1,5 +1,5 @@
 {
-  "name": "@belurk/client",
+  "name": "belurk-api-package",
   "version": "0.1.0",
   "description": "Typed API client for Belurk proxy service",
   "type": "module",
