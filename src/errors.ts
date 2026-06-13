@@ -45,8 +45,8 @@ export class BelurNotFoundError extends BelurHttpError {
 }
 
 export class BelurServerError extends BelurHttpError {
-  constructor(raw?: unknown, cause?: unknown) {
-    super(500, 'Internal server error from Belurk API', raw, cause)
+  constructor(statusCode: number, raw?: unknown, cause?: unknown) {
+    super(statusCode, `Server error ${statusCode} from Belurk API`, raw, cause)
   }
 }
 
@@ -64,14 +64,14 @@ export class BelurValidationError extends BelurError {
 // ─── Result type ─────────────────────────────────────────────────────────────
 
 export interface BelurErrorPayload {
-  code: string
+  code:    string
   message: string
-  cause?: unknown
+  cause?:  unknown
 }
 
 export type BelurResult<T> =
   | { status: 'success'; data: T }
-  | { status: 'error'; error: BelurErrorPayload }
+  | { status: 'error';   error: BelurErrorPayload }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -85,16 +85,16 @@ export function fail<T>(error: BelurErrorPayload): BelurResult<T> {
 
 export function toErrorPayload(err: unknown): BelurErrorPayload {
   if (err instanceof BelurAuthError) {
-    return { code: 'AUTH_ERROR', message: err.message, cause: err.cause }
+    return { code: 'AUTH_ERROR',       message: err.message, cause: err.cause }
   }
   if (err instanceof BelurForbiddenError) {
-    return { code: 'FORBIDDEN', message: err.message, cause: err.cause }
+    return { code: 'FORBIDDEN',        message: err.message, cause: err.cause }
   }
   if (err instanceof BelurNotFoundError) {
-    return { code: 'NOT_FOUND', message: err.message, cause: err.cause }
+    return { code: 'NOT_FOUND',        message: err.message, cause: err.cause }
   }
   if (err instanceof BelurServerError) {
-    return { code: 'SERVER_ERROR', message: err.message, cause: err.cause }
+    return { code: 'SERVER_ERROR',     message: err.message, cause: err.cause }
   }
   if (err instanceof BelurHttpError) {
     return { code: `HTTP_${err.statusCode}`, message: err.message, cause: err.cause }
@@ -103,12 +103,12 @@ export function toErrorPayload(err: unknown): BelurErrorPayload {
     return { code: 'VALIDATION_ERROR', message: err.message, cause: err.issues }
   }
   if (err instanceof BelurError) {
-    return { code: 'BELUR_ERROR', message: err.message, cause: err.cause }
+    return { code: 'BELUR_ERROR',      message: err.message, cause: err.cause }
   }
 
   return {
-    code: 'UNKNOWN_ERROR',
+    code:    'UNKNOWN_ERROR',
     message: err instanceof Error ? err.message : 'Unknown error',
-    cause: err,
+    cause:   err,
   }
 }

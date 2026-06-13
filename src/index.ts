@@ -1,29 +1,32 @@
-import { createBelurClient, type BelurClientOptions } from './api/client.js'
-import { BelurController } from './controller/controller.js'
+// ─── Client ───────────────────────────────────────────────────────────────────
+export { createBelurClient }         from './client.js'
+export type { BelurClientOptions }   from './client.js'
+export type { BelurClient }          from './client.js'
 
-// ─── Factory ─────────────────────────────────────────────────────────────────
+// ─── Middleware ───────────────────────────────────────────────────────────────
+export type { MiddlewareOptions } from './middleware.js'
 
-export interface BelurInstance {
-  controller: BelurController
-}
+// ─── Errors ───────────────────────────────────────────────────────────────────
+export {
+  BelurError,
+  BelurHttpError,
+  BelurAuthError,
+  BelurForbiddenError,
+  BelurNotFoundError,
+  BelurServerError,
+  BelurValidationError,
+  ok,
+  fail,
+  toErrorPayload,
+} from './errors.js'
+export type { BelurResult, BelurErrorPayload } from './errors.js'
 
-export function createBelur(options: BelurClientOptions): BelurInstance {
-  const client = createBelurClient(options)
-  const controller = new BelurController(client)
-  return { controller }
-}
-
-// ─── Types ───────────────────────────────────────────────────────────────────
-
-export type { BelurClientOptions }
-export type { BelurClient } from './api/client.js'
-export type { BelurController } from './controller/controller.js'
-
+// ─── Schemas & Types ──────────────────────────────────────────────────────────
 export type {
   Balance,
-  ProductList,
   ProductVariant,
   Product,
+  ProductList,
   ProxyItem,
   ProxyList,
   ProxyType,
@@ -35,26 +38,9 @@ export type {
   OrderType,
   Renewal,
   RenewalPeriod,
+  RenewalCurrency,
   RenewalStepOneRequest,
   RenewalStepTwoRequest,
   CreateRenewalResult,
   ProxyListRequest,
-} from './api/schemas.js'
-
-export type { BelurResult, BelurErrorPayload } from './errors/errors.js'
-
-// ─── Errors ──────────────────────────────────────────────────────────────────
-
-export {
-  BelurError,
-  BelurHttpError,
-  BelurAuthError,
-  BelurForbiddenError,
-  BelurNotFoundError,
-  BelurServerError,
-  BelurValidationError,
-} from './errors/errors.js'
-
-// ─── Middleware ───────────────────────────────────────────────────────────────
-
-export type { MiddlewareOptions } from './middleware/middleware.js'
+} from './schemas.js'

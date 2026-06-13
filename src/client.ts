@@ -1,10 +1,10 @@
-import { Middleware, type MiddlewareOptions } from '../middleware/middleware.js'
+import { Middleware, type MiddlewareOptions } from './middleware.js'
 import {
   BelurAuthError,
   BelurForbiddenError,
   BelurHttpError,
   BelurNotFoundError,
-} from '../errors/errors.js'
+} from './errors.js'
 import type {
   CreateOrderRequest,
   ProxyListRequest,
@@ -25,11 +25,11 @@ export interface BelurClientOptions extends MiddlewareOptions {
 // ─── Internal Client ─────────────────────────────────────────────────────────
 
 class BelurClient {
-  private readonly apiToken: string
-  private readonly middleware: Middleware
+  private readonly apiToken:    string
+  private readonly middleware:  Middleware
 
   constructor({ apiToken, ...middlewareOptions }: BelurClientOptions) {
-    this.apiToken = apiToken
+    this.apiToken   = apiToken
     this.middleware = new Middleware(middlewareOptions)
   }
 
@@ -44,14 +44,14 @@ class BelurClient {
   private get headers(): Record<string, string> {
     return {
       'Content-Type': 'application/json',
-      'x-api-token': this.apiToken,
+      'x-api-token':  this.apiToken,
     }
   }
 
   private async request<T>(
     method: 'GET' | 'POST',
-    path: string,
-    body?: unknown,
+    path:   string,
+    body?:  unknown,
   ): Promise<T> {
     const url = `${BASE_URL}${path}`
 
