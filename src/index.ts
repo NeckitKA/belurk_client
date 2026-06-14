@@ -21,7 +21,17 @@ export {
 } from './errors.js'
 export type { BelurResult, BelurErrorPayload } from './errors.js'
 
-// ─── Schemas & Types ──────────────────────────────────────────────────────────
+// ─── Schemas (values) ─────────────────────────────────────────────────────────
+export {
+  BalanceSchema,
+  ProductListSchema,
+  CreateOrderSchema,
+  ProxyListSchema,
+  CreateOrderRequestSchema,
+  ProxyListRequestSchema,
+} from './schemas.js'
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 export type {
   Balance,
   ProductVariant,
